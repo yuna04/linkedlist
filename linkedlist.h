@@ -16,6 +16,8 @@ typedef struct LinkedList {
 
 Node* node_create(void* data);
 LinkedList* linkedlist_init();
+int linkedlist_get_size(LinkedList* list);
+int linkedlist_is_empty(LinkedList* list);
 void linkedlist_push_front(LinkedList* list, Node* node);
 void linkedlist_push_back(LinkedList* list, Node* node);
 void* linkedlist_pop_front(LinkedList* list);

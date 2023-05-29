@@ -26,6 +26,14 @@ LinkedList* linkedlist_init() {
     return list;
 }
 
+int linkedlist_get_size(LinkedList* list) {
+    return list->size;
+}
+
+int linkedlist_is_empty(LinkedList* list) {
+    return list->size == 0;
+}
+
 void linkedlist_push_front(LinkedList* list, Node* node) {
     if (list->size == 0) {
         list->tail = node;
