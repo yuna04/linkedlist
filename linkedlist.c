@@ -121,6 +121,36 @@ void linkedlist_insert(LinkedList* list, Node* node, int index) {
     list->size++;
 }
 
+void linkedlist_delete(LinkedList* list, int index) {
+    if (index < 0 || index >= list->size) {   // changed the condition to index >= list->size
+        puts("Index out of bounds");
+        return;
+    }
+
+    Node* node;
+    if (index == 0) {
+        node = list->head->next;
+        free(list->head);
+        list->head = node;
+        if (list->size == 1) {  // added condition to update tail if list has only 1 node
+            list->tail = node;
+        }
+    } else {
+        node = list->head;
+        for (int i = 0; i < index - 1; i++) {
+            node = node->next;
+        }
+        Node* node_to_delete = node->next;
+        if (node_to_delete == list->tail) {  // added condition to update tail if last node is deleted
+            list->tail = node;
+        }
+        node->next = node->next->next;
+        free(node_to_delete);
+    }
+    list->size--;
+}
+
+
 void linkedlist_print_all(LinkedList* list) {
     if (list->size == 0) {
         puts("List is empty!");
@@ -176,12 +206,9 @@ int main() {
 
     puts("");
 
-    void* another_node = linkedlist_pop_back(list);
+    linkedlist_delete(list, 2);
 
     linkedlist_print_all(list);
 
-    linkedlist_destroy(list);
-
-    linkedlist_print_all(list);
 
 }
