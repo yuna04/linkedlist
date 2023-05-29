@@ -63,15 +63,20 @@ void linkedlist_insert(LinkedList* list, Node* node, int index) {
     Node* temp_node = list->head;
     puts("Before loop");
     if (index == 0) {
-        list->head;
+        node->next = list->head;
+        list->head = node;
+    } else if (index == 1) {
+        node->next = list->head->next;
+        list->head->next = node;
+    } else {
+        for (int i = 0; i < index-1; i++) {
+            temp_node = temp_node->next;
+            printf("Value: %d\n", *(int*)temp_node->data);
+        }
+        node->next = temp_node;
+        temp_node->next = node;
     }
-    for (int i = 0; i < index-1; i++) {
-        puts("In loop");
-        temp_node = temp_node->next;
-        printf("Value: %d\n", *(int*)temp_node->data);
-    }
-    node->next=temp_node;
-    temp_node=node;
+    list->size++;
 }
 
 void linkedlist_print_all(LinkedList* list) {
