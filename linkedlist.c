@@ -122,7 +122,7 @@ void linkedlist_insert(LinkedList* list, Node* node, int index) {
 }
 
 void linkedlist_delete(LinkedList* list, int index) {
-    if (index < 0 || index >= list->size) {   // changed the condition to index >= list->size
+    if (index < 0 || index >= list->size) { 
         puts("Index out of bounds");
         return;
     }
@@ -209,6 +209,5 @@ int main() {
     linkedlist_delete(list, 2);
 
     linkedlist_print_all(list);
-
 
 }
