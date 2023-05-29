@@ -99,7 +99,7 @@ void* linkedlist_pop_back(LinkedList* list) {
 }
 
 void linkedlist_insert(LinkedList* list, Node* node, int index) {
-    if (index > list->size) {
+    if (0 > index || index > list->size) {
         puts("Index out of bounds");
         return;
     }
@@ -122,11 +122,33 @@ void linkedlist_insert(LinkedList* list, Node* node, int index) {
 }
 
 void linkedlist_print_all(LinkedList* list) {
+    if (list->size == 0) {
+        puts("List is empty!");
+        return;
+    }
     Node* node = list->head;
     for (int i = 0; i < list->size; i++) {
         printf("%d. %d\n", i, *(int*)node->data);
         node = node->next;
     }
+}
+
+void linkedlist_destroy(LinkedList* list) {
+    if (list->size == 0) {
+        puts("List is empty!!!");
+        return;
+    }
+    Node* node = list->head;
+    printf("Size before loop: %d\n", list->size);
+    while (node != NULL) {
+        Node* next_node = node->next;
+        free(node);
+        node = next_node;
+        list->size--;
+    }
+    printf("Size after loop: %d\n", list->size);
+    list->head = NULL;
+    list->tail = NULL;
 }
 
 int main() {
@@ -155,6 +177,10 @@ int main() {
     puts("");
 
     void* another_node = linkedlist_pop_back(list);
+
+    linkedlist_print_all(list);
+
+    linkedlist_destroy(list);
 
     linkedlist_print_all(list);
 
