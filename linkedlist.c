@@ -66,6 +66,35 @@ void* linkedlist_pop_front(LinkedList* list) {
     void* data = popped->data;
     free(popped);
 
+    list->size--;
+
+    return data;
+}
+
+void* linkedlist_pop_back(LinkedList* list) {
+    void* data = NULL;
+    if (list->size == 0) {
+        puts("Empty list.");
+        return NULL;
+    } else if (list->size == 1) {
+        puts("In else if");
+        data = list->head->data;
+        free(list->head);
+        list->head = NULL;
+        list->tail = NULL;
+    } else {
+        Node* prev_node = list->head;
+        while(prev_node->next->next != NULL) {
+            prev_node = prev_node->next;
+        }
+        data = prev_node->next->data;
+        list->tail = prev_node;
+        free(prev_node->next);
+        prev_node->next = NULL;
+    }
+    
+    list->size--;
+
     return data;
 }
 
@@ -125,7 +154,7 @@ int main() {
 
     puts("");
 
-    Node* another_node = linkedlist_pop_front(list);
+    void* another_node = linkedlist_pop_back(list);
 
     linkedlist_print_all(list);
 
