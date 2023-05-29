@@ -1,18 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "linkedlist.h"
 
 #define DEFAULT_SIZE 0
-
-typedef struct Node {
-    void* data;
-    struct Node* next;
-} Node;
-
-typedef struct LinkedList {
-    Node* head;
-    Node* tail;
-    size_t size;
-} LinkedList;
 
 Node* node_create(void* data) {
     Node* node = malloc(sizeof(Node));
@@ -121,6 +111,18 @@ void linkedlist_insert(LinkedList* list, Node* node, int index) {
     list->size++;
 }
 
+Node* linkedlist_access(LinkedList* list, int index) {
+    if (0 > index || list->size <= index) {
+        puts("index out of bounds");
+        return NULL;
+    }
+    Node* node = list->head;
+    for (int i = 0; i < index; i++) {
+        node = node->next;
+    }
+    return node;
+}
+
 void linkedlist_delete(LinkedList* list, int index) {
     if (index < 0 || index >= list->size) { 
         puts("Index out of bounds");
@@ -150,6 +152,18 @@ void linkedlist_delete(LinkedList* list, int index) {
     list->size--;
 }
 
+Node* linkedlist_lookup_int(LinkedList* list, int value) {
+    Node* node = list->head;
+    while(node != NULL) {
+        if (*(int*)node->data == value) {
+            puts("Succesful lookup.");
+            return node;
+        }
+        node = node->next;
+    }
+    puts("No matches found.");
+    return NULL;
+}
 
 void linkedlist_print_all(LinkedList* list) {
     if (list->size == 0) {
@@ -179,35 +193,4 @@ void linkedlist_destroy(LinkedList* list) {
     printf("Size after loop: %d\n", list->size);
     list->head = NULL;
     list->tail = NULL;
-}
-
-int main() {
-
-    int a = 5, b = 10, c = 15;
-    Node* node_a;
-    node_a = node_create(&a);
-
-    Node* node_b;
-    node_b = node_create(&b);
-
-    Node* node_c;
-    node_c = node_create(&c);
-
-    LinkedList* list;
-    list = linkedlist_init();
-
-    linkedlist_push_back(list, node_a);
-
-    linkedlist_push_front(list, node_b);
-
-    linkedlist_insert(list, node_c, 1);
-
-    linkedlist_print_all(list);
-
-    puts("");
-
-    linkedlist_delete(list, 2);
-
-    linkedlist_print_all(list);
-
 }
