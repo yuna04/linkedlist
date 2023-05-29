@@ -55,13 +55,26 @@ void linkedlist_push_back(LinkedList* list, Node* node) {
     list->size++;
 }
 
+void* linkedlist_pop_front(LinkedList* list) {
+    if (list->size == 0) {
+        puts("Empty list.");
+        return NULL;
+    }
+    Node* popped = list->head;
+    list->head = list->head->next;
+
+    void* data = popped->data;
+    free(popped);
+
+    return data;
+}
+
 void linkedlist_insert(LinkedList* list, Node* node, int index) {
     if (index > list->size) {
         puts("Index out of bounds");
         return;
     }
     Node* temp_node = list->head;
-    puts("Before loop");
     if (index == 0) {
         node->next = list->head;
         list->head = node;
@@ -107,6 +120,12 @@ int main() {
     linkedlist_push_front(list, node_b);
 
     linkedlist_insert(list, node_c, 1);
+
+    linkedlist_print_all(list);
+
+    puts("");
+
+    Node* another_node = linkedlist_pop_front(list);
 
     linkedlist_print_all(list);
 
